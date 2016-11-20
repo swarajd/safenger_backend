@@ -39,11 +39,11 @@ async function getDMs() {
     }
 }
 
-// getMentions().then(() => {
-//     console.log("end");
-// })
-
-
-getDMs().then(() => {
+getMentions().then(() => {
     console.log("end");
 })
+
+
+// getDMs().then(() => {
+//     console.log("end");
+// })
