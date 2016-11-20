@@ -18,7 +18,7 @@ let client = new twitter(config);
 Promise.promisifyAll(client);
 
 let params = {
-    to: 'addyosmani',
+    to: 'SDcoolio',
     count: 10
 }
 
@@ -34,9 +34,18 @@ async function getMentions(params) {
 }
 
 async function getDMs(params) {
+    let messages = [];
     try {
         let resp = await client.getAsync('direct_messages', params);
-        console.log(resp);
+        for (let dm of resp) {
+            messages.push({
+                text: dm.text,
+                recipient: dm.recipient.screen_name,
+                sender: dm.sender.screen_name,
+                img: dm.sender.profile_image_url
+            })
+        }
+        console.log(messages);
         return resp;
     } catch (e) {
         console.error(e);
@@ -48,37 +57,37 @@ async function getDMs(params) {
 //     console.log("end");
 // })
 
-app.post('/', function(req, res) {
-    let key = req.body.key;
-    let secret = req.body.secret;
-    let subject = req.body.subject;
+// app.post('/', function(req, res) {
+//     let key = req.body.key;
+//     let secret = req.body.secret;
+//     let subject = req.body.subject;
 
-    let config = {
-        consumer_key: "2nkEy3wkbkFFvDcUCkuCYeIrn",
-        consumer_secret: "rNEf4gA1GSniCr30PwtTeLYwsc58NEzcjVgC7qdwjJwqTjNa7H",
-        access_token_key: key,
-        access_token_secret: secret
-    };
+//     let config = {
+//         consumer_key: "2nkEy3wkbkFFvDcUCkuCYeIrn",
+//         consumer_secret: "rNEf4gA1GSniCr30PwtTeLYwsc58NEzcjVgC7qdwjJwqTjNa7H",
+//         access_token_key: key,
+//         access_token_secret: secret
+//     };
 
-    let params = {
-        to: subject,
-        count: 10
-    };
+//     let params = {
+//         to: subject,
+//         count: 10
+//     };
 
-    let client = new twitter(config);
+//     let client = new twitter(config);
 
-    Promise.promisifyAll(client);
+//     Promise.promisifyAll(client);
 
-    getMentions(params).then(() => {
-        console.log("end");
-    })
+//     getMentions(params).then(() => {
+//         console.log("end");
+//     })
 
-});
+// });
 
-// getDMs().then(() => {
-//     console.log("end");
-// })
+getDMs(params).then(() => {
+    console.log("end");
+})
 
-app.listen(3000, function() {
-    console.log('listening on :3000');
-});
+// app.listen(3000, function() {
+//     console.log('listening on :3000');
+// });
